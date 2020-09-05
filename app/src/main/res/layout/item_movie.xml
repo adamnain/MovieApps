@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="io.github.adamnain.movieapps.model.Movie" />
+
+        <variable
+            name="listener"
+            type="io.github.adamnain.movieapps.view.MovieListener" />
+    </data>
+
+    <!-- Genre From TMDB
+        id 28 = action
+        id 18 = drama
+        id 35 = comedy
+        id 16 = Animation
+    -->
+
+    <!-- Genre Example
+        id 1 = action
+        id 2 = drama
+        id 3 = comedy
+        id 4 = Animation
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@{movie.genreIds[0] == 2 ? @color/colorPrimary: movie.genreIds[0] == 1 ? @color/colorRed: movie.genreIds[0] == 3 ?  @color/colorGreen: movie.genreIds[0] == 4 ?  @color/colorYellow: @color/colorPurple  }"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/border_width"
+            android:background="@color/colorWhite"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_image"
+                    android:imageUrl="@{movie.backdropPath}"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:text="@{movie.voteAverage >= 8 ? @string/A :movie.voteAverage >= 6 ?   @string/B :movie.voteAverage >= 4 ?   @string/C :   @string/D  }"
+                    android:textColor="@color/colorWhite" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:text="@{movie.title}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:text="@{movie.releaseDate}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{listener::onMovieClicked}"
+                android:text="Add To Favorite" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

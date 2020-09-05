@@ -16,14 +16,13 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_series,
-                R.id.navigation_movies
+                R.id.navigation_movies,
+                R.id.navigation_series
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
