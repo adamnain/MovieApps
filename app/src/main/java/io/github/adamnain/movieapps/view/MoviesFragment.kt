@@ -3,9 +3,7 @@ package io.github.adamnain.movieapps.view
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -32,6 +30,7 @@ class MoviesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_movies,
@@ -57,7 +56,7 @@ class MoviesFragment : Fragment() {
         }
 
         refresh_layout.setOnRefreshListener {
-            moviesViewModel.fetchFromDatabase()
+            moviesViewModel.fetchFromRemote()
             refresh_layout.isRefreshing = false
         }
         observeViewModel()
@@ -119,6 +118,20 @@ class MoviesFragment : Fragment() {
 
 
         builder.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.movie_favorite_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.actionFavorite -> {
+                moviesViewModel.fetchFromDatabase()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
