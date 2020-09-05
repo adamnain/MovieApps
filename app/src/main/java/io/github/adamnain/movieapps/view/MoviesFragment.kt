@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,28 +23,22 @@ import io.github.adamnain.movieapps.viewmodel.MoviesViewModel
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment() {
-
-
-
-
-
     private lateinit var moviesViewModel: MoviesViewModel
-    private var movieListAdapter = MovieListAdapter(arrayListOf())
+    private var movieListAdapter = MovieListAdapter(arrayListOf(), this)
+    private lateinit var binding: FragmentMoviesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_movies, container, false)
-        return root
-//        binding = DataBindingUtil.inflate(
-//            inflater,
-//            R.layout.fragment_movies,
-//            container,
-//            false
-//        )
-//        return binding.root
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_movies,
+            container,
+            false
+        )
+        return binding.root
     }
 
 
@@ -52,6 +47,7 @@ class MoviesFragment : Fragment() {
 
         moviesViewModel =
             ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+        //binding.viewModel = moviesViewModel
         moviesViewModel.fetchFromRemote()
 
 
@@ -92,28 +88,39 @@ class MoviesFragment : Fragment() {
             }
         })
 
+
     }
 
+    fun createDialog(movie: Movie) {
 
-    fun createDialog() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Favorite Movie")
-        builder.setMessage("Is your favorite movie?")
+        if(movie.isFavorited == 0){
+            builder.setMessage("Is your favorite movie?")
 
-        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                moviesViewModel.storeFavorite(movie)
+            }
 
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+
+            }
+        } else {
+            builder.setMessage("Delete from your favorite?")
+
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                moviesViewModel.deleteFovorite(movie)
+            }
+
+            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+
+            }
         }
 
-        builder.setNegativeButton(android.R.string.no) { dialog, which ->
-
-        }
 
         builder.show()
     }
 
-//    override fun onMovieClicked(movie: Movie) {
-//        createDialog()
-//    }
 
 
 }

@@ -1,7 +1,8 @@
 package io.github.adamnain.movieapps.view
 
-import android.view.View
+import io.github.adamnain.movieapps.model.Movie
+
 
 interface MovieListener {
-    fun onMovieClicked(v: View)
+    fun onMovieClicked(movie: Movie)
 }

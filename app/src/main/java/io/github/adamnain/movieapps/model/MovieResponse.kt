@@ -26,6 +26,10 @@ data class Movie(
 	@SerializedName("id")
 	val id: Int? = null,
 
+
+	@ColumnInfo(name = "is_favorited")
+	var isFavorited: Int? = 0,
+
 	@ColumnInfo(name = "overview")
 	@SerializedName("overview")
 	val overview: String? = null,

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,8 +10,11 @@
             type="io.github.adamnain.movieapps.model.Movie" />
 
         <variable
-            name="listener"
-            type="io.github.adamnain.movieapps.view.MovieListener" />
+            name="view"
+            type="io.github.adamnain.movieapps.view.MoviesFragment" />
+        <!--        <variable-->
+        <!--            name="viewModel"-->
+        <!--            type="io.github.adamnain.movieapps.viewmodel.MoviesViewModel" />-->
     </data>
 
     <!-- Genre From TMDB
@@ -45,12 +49,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_image"
                     android:imageUrl="@{movie.backdropPath}"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/ic_launcher" />
+
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:onClick="@{()-> view.createDialog(movie)}"
+                    android:src="@{movie.isFavorited==1?@drawable/star_full : @drawable/star_border}" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -66,7 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="@{movie.title}" />
+                android:text="@{movie.title}"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,11 +91,6 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:text="@{movie.releaseDate}" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{listener::onMovieClicked}"
-                android:text="Add To Favorite" />
 
         </LinearLayout>
 
